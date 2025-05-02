@@ -297,7 +297,20 @@ export default function HabitTracker() {
 }
 // import { motion } from 'framer-motion';
 // import { Check } from 'react-feather'; // Make sure you have the Check icon from react-feather, or replace with your own
-
+interface HabitCardProps {
+  icon: React.ReactNode;
+  title: string;
+  current: number;
+  target: number;
+  unit: string;
+  percentage: number;
+  value: number;
+  setValue: (newValue: number) => void;
+  min: number;
+  max: number;
+  color: string;
+  inversed?: boolean; // Optional prop with a default value of false
+}
 export const  HabitCard = ({ 
   icon, 
   title, 
