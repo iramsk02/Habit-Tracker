@@ -343,6 +343,8 @@ export const  HabitCard:React.FC<HabitCardProps> = ({
       light: 'bg-violet-100'
     }
   };
+  const colorr: keyof typeof colorClasses = 'blue'; // or 'indigo' | 'violet'
+
 
   // const getColorClass = (type:string) => colorClasses[color]?.[type] || colorClasses.blue[type];
   const getColorClass = (
@@ -365,8 +367,8 @@ export const  HabitCard:React.FC<HabitCardProps> = ({
             <h4 className="font-semibold">{title}</h4>
           </div>
           {percentage >= 100 && (
-            <div className={`rounded-full p-1 ${getColorClass('light')}`}>
-              <Check size={16} className={getColorClass('text')} />
+            <div className={`rounded-full p-1 ${getColorClass(colorr,'light')}`}>
+              <Check size={16} className={getColorClass(colorr,'text')} />
             </div>
           )}
         </div>
@@ -394,7 +396,7 @@ export const  HabitCard:React.FC<HabitCardProps> = ({
                 cy="18" 
                 r="16" 
                 fill="none" 
-                className={getColorClass('bg')}
+                className={getColorClass(colorr,'bg')}
                 strokeWidth="3" 
                 strokeDasharray="100" 
                 strokeDashoffset={100 - Math.min(percentage, 100)} 
@@ -422,7 +424,7 @@ export const  HabitCard:React.FC<HabitCardProps> = ({
           max={max}
           value={value}
           onChange={(e) => setValue(Number(e.target.value))}
-          className={`w-full h-2 rounded-lg appearance-none cursor-pointer ${getColorClass('light')}`}
+          className={`w-full h-2 rounded-lg appearance-none cursor-pointer ${getColorClass(colorr,'light')}`}
           style={{
             background: `linear-gradient(to right, ${color === 'blue' ? '#3b82f6' : color === 'indigo' ? '#6366f1' : '#8b5cf6'} 0%, ${color === 'blue' ? '#3b82f6' : color === 'indigo' ? '#6366f1' : '#8b5cf6'} ${percentage}%, #e5e7eb ${percentage}%, #e5e7eb 100%)`
           }}
