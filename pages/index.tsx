@@ -118,7 +118,7 @@ export default function HabitTracker() {
             {/* Daily Goals Section */}
             <h3 className="text-xl font-semibold mb-4 flex items-center gap-2 px-4">
               <Calendar size={20} className="text-blue-600" />
-              <span>Today's Goals</span>
+              <span>Today&apos;s Goals</span>
             </h3>
 
             {/* Habit Cards with Circular Progress */}
@@ -413,6 +413,4 @@ export const  HabitCard = ({
     </motion.div>
   );
 }
-
-
 
