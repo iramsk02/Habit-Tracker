@@ -1,8 +1,8 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { Bell, Settings, Check, Award, Droplet, Moon, Smartphone, Plus, Calendar } from 'lucide-react';
+import {  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
+import {  Check, Award, Droplet, Moon, Smartphone,  Calendar } from 'lucide-react';
 import AddHabitButton from '@/components/AddHabit';
 
 const mockHabitData = [
@@ -25,11 +25,7 @@ export default function HabitTracker() {
   const streak = 6;
   const [activeTab, setActiveTab] = useState('today');
 
-  // Calculate percentage completion for habit goals
-  const waterPercentage = (habits.water / 8) * 100; // Assuming 8 glasses is the goal
-  const sleepPercentage = (habits.sleep / 8) * 100; // Assuming 8 hours is the goal
-  const screenPercentage = (5 - (habits.screen)) * 20; // Inverse - less screen time is better (max 5h)
-
+  
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white text-gray-800 font-sans">
       {/* Navbar */}
