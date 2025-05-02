@@ -33,8 +33,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       await habit.save();
       return res.status(200).json(habit);
-    } catch (err: any) {  // Type `err` as `Error`
-      return res.status(500).json({ message: err.message });
+    } catch (err: unknown) {  // Use `unknown` for better type safety
+      if (err instanceof Error) { // Type-check the error
+        return res.status(500).json({ message: err.message });
+      }
+      return res.status(500).json({ message: 'An unknown error occurred' });
     }
   }
 
@@ -49,8 +52,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const habits = await Habit.find({ userId });
       return res.status(200).json(habits);
-    } catch (err: any) {
-      return res.status(500).json({ message: err.message });
+    } catch (err: unknown) {
+      if (err instanceof Error) { // Type-check the error
+        return res.status(500).json({ message: err.message });
+      }
+      return res.status(500).json({ message: 'An unknown error occurred' });
     }
   }
 
