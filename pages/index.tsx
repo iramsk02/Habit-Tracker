@@ -301,7 +301,7 @@ interface HabitCardProps {
   icon: React.ReactNode;
   title: string;
   current: number;
-  target: number;
+  target: number | string;
   unit: string;
   percentage: number;
   value: number;
