@@ -297,143 +297,6 @@ export default function HabitTracker() {
 }
 // import { motion } from 'framer-motion';
 // import { Check } from 'react-feather'; // Make sure you have the Check icon from react-feather, or replace with your own
-// interface HabitCardProps {
-//   icon: React.ReactNode;
-//   title: string;
-//   current: number;
-//   target: number | string;
-//   unit: string;
-//   percentage: number;
-//   value: number;
-//   setValue: (newValue: number) => void;
-//   min: number;
-//   max: number;
-//   color: string;
-//   inversed?: boolean; // Optional prop with a default value of false
-// }
-// export const  HabitCard:React.FC<HabitCardProps> = ({ 
-//   icon, 
-//   title, 
-//   current, 
-//   target, 
-//   unit, 
-//   percentage, 
-//   value, 
-//   setValue, 
-//   min, 
-//   max,
-//   color,
-//   inversed = false
-// }) => {
-//   type ColorClass = {
-//     bg: string;
-//     text: string;
-//     light: string;
-//   };
-//   const colorClasses = {
-//     blue: {
-//       bg: 'bg-blue-500',
-//       text: 'text-blue-500',
-//       light: 'bg-blue-100'
-//     },
-//     indigo: {
-//       bg: 'bg-indigo-500',
-//       text: 'text-indigo-500',
-//       light: 'bg-indigo-100'
-//     },
-//     violet: {
-//       bg: 'bg-violet-500',
-//       text: 'text-violet-500',
-//       light: 'bg-violet-100'
-//     }
-//   };
-
-//   const getColorClass = type => colorClasses[color]?.[type] || colorClasses.blue[type];
-
-//   return (
-//     <motion.div 
-//       className="bg-white rounded-2xl shadow-sm overflow-hidden"
-//       whileHover={{ y: -5, transition: { duration: 0.2 } }}
-//       initial={{ opacity: 0, y: 20 }}
-//       animate={{ opacity: 1, y: 0 }}
-//       transition={{ duration: 0.3 }}
-//     >
-//       <div className="p-6">
-//         <div className="flex justify-between items-center mb-4">
-//           <div className="flex items-center gap-2">
-//             {icon}
-//             <h4 className="font-semibold">{title}</h4>
-//           </div>
-//           {percentage >= 100 && (
-//             <div className={`rounded-full p-1 ${getColorClass('light')}`}>
-//               <Check size={16} className={getColorClass('text')} />
-//             </div>
-//           )}
-//         </div>
-        
-//         <div className="flex items-center justify-between">
-//           <div>
-//             <p className="text-3xl font-bold">{current}</p>
-//             <p className="text-sm text-gray-500">
-//               {inversed ? `Target: ${target} ${unit}` : `of ${target} ${unit}`}
-//             </p>
-//           </div>
-          
-//           <div className="relative w-14 h-14">
-//             <svg className="w-full h-full" viewBox="0 0 36 36">
-//               <circle 
-//                 cx="18" 
-//                 cy="18" 
-//                 r="16" 
-//                 fill="none" 
-//                 className="stroke-gray-200" 
-//                 strokeWidth="3" 
-//               />
-//               <circle 
-//                 cx="18" 
-//                 cy="18" 
-//                 r="16" 
-//                 fill="none" 
-//                 className={getColorClass('bg')}
-//                 strokeWidth="3" 
-//                 strokeDasharray="100" 
-//                 strokeDashoffset={100 - Math.min(percentage, 100)} 
-//                 strokeLinecap="round" 
-//                 transform="rotate(-90 18 18)" 
-//               />
-//               <text 
-//                 x="18" 
-//                 y="18" 
-//                 dominantBaseline="middle" 
-//                 textAnchor="middle" 
-//                 className="text-xs font-medium fill-gray-600"
-//               >
-//                 {Math.round(percentage)}%
-//               </text>
-//             </svg>
-//           </div>
-//         </div>
-//       </div>
-      
-//       <div className="px-6 pb-6">
-//         <input
-//           type="range"
-//           min={min}
-//           max={max}
-//           value={value}
-//           onChange={(e) => setValue(Number(e.target.value))}
-//           className={`w-full h-2 rounded-lg appearance-none cursor-pointer ${getColorClass('light')}`}
-//           style={{
-//             background: `linear-gradient(to right, ${color === 'blue' ? '#3b82f6' : color === 'indigo' ? '#6366f1' : '#8b5cf6'} 0%, ${color === 'blue' ? '#3b82f6' : color === 'indigo' ? '#6366f1' : '#8b5cf6'} ${percentage}%, #e5e7eb ${percentage}%, #e5e7eb 100%)`
-//           }}
-//         />
-//       </div>
-//     </motion.div>
-//   );
-// }
-
-import React from 'react';
-
 interface HabitCardProps {
   icon: React.ReactNode;
   title: string;
@@ -446,52 +309,130 @@ interface HabitCardProps {
   min: number;
   max: number;
   color: string;
-  inversed?: boolean;
+  inversed?: boolean; // Optional prop with a default value of false
 }
-
-export const HabitCard: React.FC<HabitCardProps> = ({
-  icon,
-  title,
-  current,
-  target,
-  unit,
-  percentage,
-  value,
-  setValue,
-  min,
+export const  HabitCard:React.FC<HabitCardProps> = ({ 
+  icon, 
+  title, 
+  current, 
+  target, 
+  unit, 
+  percentage, 
+  value, 
+  setValue, 
+  min, 
   max,
   color,
   inversed = false
 }) => {
+  type ColorClass = {
+    bg: string;
+    text: string;
+    light: string;
+  };
   const colorClasses = {
-    blue: { bg: 'bg-blue-500', text: 'text-blue-500', light: 'bg-blue-200' },
-    indigo: { bg: 'bg-indigo-500', text: 'text-indigo-500', light: 'bg-indigo-200' },
-    violet: { bg: 'bg-violet-500', text: 'text-violet-500', light: 'bg-violet-200' },
+    blue: {
+      bg: 'bg-blue-500',
+      text: 'text-blue-500',
+      light: 'bg-blue-100'
+    },
+    indigo: {
+      bg: 'bg-indigo-500',
+      text: 'text-indigo-500',
+      light: 'bg-indigo-100'
+    },
+    violet: {
+      bg: 'bg-violet-500',
+      text: 'text-violet-500',
+      light: 'bg-violet-100'
+    }
   };
 
-  const progressColor = inversed ? colorClasses[color]?.light : colorClasses[color]?.bg;
-
+  // const getColorClass = (type:string) => colorClasses[color]?.[type] || colorClasses.blue[type];
+  const getColorClass = (
+    color: keyof typeof colorClasses,
+    type: keyof (typeof colorClasses)['blue']
+  ) => colorClasses[color]?.[type] || colorClasses.blue[type];
+  
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6">
-      <div className="flex items-center space-x-4">
-        <div className={`flex items-center justify-center w-16 h-16 rounded-full ${progressColor}`}>
-          {icon}
-        </div>
-        <div className="flex flex-col flex-grow">
-          <h3 className="font-semibold text-lg">{title}</h3>
-          <p className="text-sm text-gray-500">{current}/{target} {unit}</p>
-          <div className="flex justify-between items-center">
-            <div className="w-full bg-gray-200 h-2 rounded-full">
-              <div 
-                className={`h-2 rounded-full ${progressColor}`} 
-                style={{ width: `${percentage}%` }}
-              ></div>
+    <motion.div 
+      className="bg-white rounded-2xl shadow-sm overflow-hidden"
+      whileHover={{ y: -5, transition: { duration: 0.2 } }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="p-6">
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center gap-2">
+            {icon}
+            <h4 className="font-semibold">{title}</h4>
+          </div>
+          {percentage >= 100 && (
+            <div className={`rounded-full p-1 ${getColorClass('light')}`}>
+              <Check size={16} className={getColorClass('text')} />
             </div>
-            <span className="ml-2 text-sm font-medium text-gray-600">{Math.round(percentage)}%</span>
+          )}
+        </div>
+        
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-3xl font-bold">{current}</p>
+            <p className="text-sm text-gray-500">
+              {inversed ? `Target: ${target} ${unit}` : `of ${target} ${unit}`}
+            </p>
+          </div>
+          
+          <div className="relative w-14 h-14">
+            <svg className="w-full h-full" viewBox="0 0 36 36">
+              <circle 
+                cx="18" 
+                cy="18" 
+                r="16" 
+                fill="none" 
+                className="stroke-gray-200" 
+                strokeWidth="3" 
+              />
+              <circle 
+                cx="18" 
+                cy="18" 
+                r="16" 
+                fill="none" 
+                className={getColorClass('bg')}
+                strokeWidth="3" 
+                strokeDasharray="100" 
+                strokeDashoffset={100 - Math.min(percentage, 100)} 
+                strokeLinecap="round" 
+                transform="rotate(-90 18 18)" 
+              />
+              <text 
+                x="18" 
+                y="18" 
+                dominantBaseline="middle" 
+                textAnchor="middle" 
+                className="text-xs font-medium fill-gray-600"
+              >
+                {Math.round(percentage)}%
+              </text>
+            </svg>
           </div>
         </div>
       </div>
-    </div>
+      
+      <div className="px-6 pb-6">
+        <input
+          type="range"
+          min={min}
+          max={max}
+          value={value}
+          onChange={(e) => setValue(Number(e.target.value))}
+          className={`w-full h-2 rounded-lg appearance-none cursor-pointer ${getColorClass('light')}`}
+          style={{
+            background: `linear-gradient(to right, ${color === 'blue' ? '#3b82f6' : color === 'indigo' ? '#6366f1' : '#8b5cf6'} 0%, ${color === 'blue' ? '#3b82f6' : color === 'indigo' ? '#6366f1' : '#8b5cf6'} ${percentage}%, #e5e7eb ${percentage}%, #e5e7eb 100%)`
+          }}
+        />
+      </div>
+    </motion.div>
   );
-};
+}
 
