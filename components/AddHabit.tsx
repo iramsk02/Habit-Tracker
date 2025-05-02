@@ -103,7 +103,7 @@ const AddHabitButton = () => {
   return (
     <div className="">
       {habits.length > 0 && (
-        <div className="mt-10 w-380">
+        <div className="mt-10">
           <h3 className="text-lg font-semibold m-5">Your Habits:</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {habits.map((habit, index) => (
