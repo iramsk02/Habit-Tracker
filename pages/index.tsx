@@ -311,7 +311,7 @@ interface HabitCardProps {
   color: string;
   inversed?: boolean; // Optional prop with a default value of false
 }
-export const  HabitCard = ({ 
+export const  HabitCard:React.FC<HabitCardProps> = ({ 
   icon, 
   title, 
   current, 
