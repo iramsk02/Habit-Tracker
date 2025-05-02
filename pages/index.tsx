@@ -325,11 +325,7 @@ export const  HabitCard:React.FC<HabitCardProps> = ({
   color,
   inversed = false
 }) => {
-  type ColorClass = {
-    bg: string;
-    text: string;
-    light: string;
-  };
+ 
   const colorClasses = {
     blue: {
       bg: 'bg-blue-500',
