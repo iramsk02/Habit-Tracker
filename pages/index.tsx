@@ -131,7 +131,7 @@ export default function HabitTracker() {
     unit="glasses"
     percentage={(habits.water / 8) * 100}
     value={habits.water}
-    setValue={(val) => setHabits(prev => ({ ...prev, water: val }))}
+    setValue={(val:number) => setHabits(prev => ({ ...prev, water: val }))}
     min={0}
     max={10}
     color="blue"
@@ -144,7 +144,7 @@ export default function HabitTracker() {
     unit="hours"
     percentage={(habits.sleep / 8) * 100}
     value={habits.sleep}
-    setValue={(val) => setHabits(prev => ({ ...prev, sleep: val }))}
+    setValue={(val:number) => setHabits(prev => ({ ...prev, sleep: val }))}
     min={0}
     max={12}
     color="indigo"
@@ -157,7 +157,7 @@ export default function HabitTracker() {
     unit="hours"
     percentage={(1 - habits.screen / 12) * 100}
     value={habits.screen}
-    setValue={(val) => setHabits(prev => ({ ...prev, screen: val }))}
+    setValue={(val:number) => setHabits(prev => ({ ...prev, screen: val }))}
     min={0}
     max={12}
     color="violet"
