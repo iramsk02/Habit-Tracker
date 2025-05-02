@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { Bell, Settings, Check, Award, Droplet, Moon, Smartphone, Plus, Calendar } from 'lucide-react';
 import AddHabitButton from '@/components/AddHabit';
-import NotificationBar from '@/components/notification';
 
 const mockHabitData = [
   { day: 'Mon', completed: 3 },
