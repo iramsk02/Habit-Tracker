@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { Plus, Trash2, Check, Award, Droplet, Moon, Smartphone, Calendar } from 'lucide-react';
-import NotificationComponent from '@/components/Notification';
 
 // Color configuration
 const COLOR_CLASSES = {
@@ -545,7 +544,7 @@ export default function HabitTracker() {
           </div>
 
           <div className="flex items-center gap-4">
-            <NotificationComponent habits={{ water: 6, sleep: 7, screen: 3 }} />
+            {/* <NotificationComponent habits={{ water: 6, sleep: 7, screen: 3 }} /> */}
           </div>
         </div>
       </header>
