@@ -545,6 +545,7 @@ export default function HabitTracker() {
 
           <div className="flex items-center gap-4">
             {/* <NotificationComponent habits={{ water: 6, sleep: 7, screen: 3 }} /> */}
+            <NotificationComponent habits={{ water: 6, sleep: 7, screen: 3 }} />
           </div>
         </div>
       </header>
@@ -770,4 +771,256 @@ export default function HabitTracker() {
   );
 }
 
-// export { HabitCard, AddHabitButton };
+// import React, { useState, useEffect } from 'react';
+import { Bell, AlertCircle, CheckCircle, Info } from 'lucide-react';
+import {  AnimatePresence } from 'framer-motion';
+
+// Types
+interface Notification {
+  id: string;
+  message: string;
+  type: 'success' | 'warning' | 'info';
+  timestamp: number;
+  read: boolean;
+}
+
+interface NotificationProps {
+  habits: {
+    [key: string]: number;
+  };
+}
+
+// Helper function to get time ago string
+const timeAgo = (timestamp: number): string => {
+  const seconds = Math.floor((Date.now() - timestamp) / 1000);
+  
+  if (seconds < 60) return `${seconds} seconds ago`;
+  
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+  
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+  
+  const days = Math.floor(hours / 24);
+  return `${days} day${days !== 1 ? 's' : ''} ago`;
+};
+
+// Helper to generate notifications based on habit progress
+const generateNotifications = (habits: { [key: string]: number }): Notification[] => {
+  const notifications: Notification[] = [];
+  
+  // Check water intake
+  if (habits.water && habits.water < 4) {
+    notifications.push({
+      id: `water-${Date.now()}`,
+      message: "Don't forget to drink more water today!",
+      type: 'warning',
+      timestamp: Date.now(),
+      read: false
+    });
+  } else if (habits.water && habits.water >= 8) {
+    notifications.push({
+      id: `water-${Date.now()}`,
+      message: "Great job reaching your water intake goal!",
+      type: 'success',
+      timestamp: Date.now(),
+      read: false
+    });
+  }
+  
+  // Check sleep
+  if (habits.sleep && habits.sleep < 6) {
+    notifications.push({
+      id: `sleep-${Date.now()}`,
+      message: "You need more sleep for better health!",
+      type: 'warning',
+      timestamp: Date.now(),
+      read: false
+    });
+  } else if (habits.sleep && habits.sleep >= 8) {
+    notifications.push({
+      id: `sleep-${Date.now()}`,
+      message: "You've met your sleep goal! Great work!",
+      type: 'success',
+      timestamp: Date.now(),
+      read: false
+    });
+  }
+  
+  // Check screen time
+  if (habits.screen && habits.screen > 4) {
+    notifications.push({
+      id: `screen-${Date.now()}`,
+      message: "Consider reducing your screen time today",
+      type: 'warning',
+      timestamp: Date.now(),
+      read: false
+    });
+  } else if (habits.screen && habits.screen <= 2) {
+    notifications.push({
+      id: `screen-${Date.now()}`,
+      message: "Great job keeping your screen time low!",
+      type: 'success',
+      timestamp: Date.now(),
+      read: false
+    });
+  }
+  
+  return notifications;
+};
+
+const NotificationComponent: React.FC<NotificationProps> = ({ habits }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  
+  // Load notifications from localStorage when component mounts
+  useEffect(() => {
+    const storedNotifications = localStorage.getItem('habitNotifications');
+    if (storedNotifications) {
+      try {
+        const parsed = JSON.parse(storedNotifications);
+        setNotifications(parsed);
+        setUnreadCount(parsed.filter((n: Notification) => !n.read).length);
+      } catch (error) {
+        console.error('Failed to parse notifications from localStorage:', error);
+        localStorage.removeItem('habitNotifications');
+      }
+    }
+  }, []);
+  
+  // Generate new notifications based on habit data
+  useEffect(() => {
+    if (Object.keys(habits).length > 0) {
+      const newNotifications = generateNotifications(habits);
+      
+      if (newNotifications.length > 0) {
+        setNotifications(prev => {
+          const updated = [...newNotifications, ...prev].slice(0, 20); // Keep only the latest 20 notifications
+          localStorage.setItem('habitNotifications', JSON.stringify(updated));
+          return updated;
+        });
+        
+        setUnreadCount(prev => prev + newNotifications.length);
+      }
+    }
+  }, [habits]);
+  
+  // Mark all notifications as read when opened
+  const handleOpen = () => {
+    setIsOpen(true);
+    setNotifications(prev => {
+      const updated = prev.map(notification => ({ ...notification, read: true }));
+      localStorage.setItem('habitNotifications', JSON.stringify(updated));
+      return updated;
+    });
+    setUnreadCount(0);
+  };
+  
+  const getNotificationColor = (type: string) => {
+    switch (type) {
+      case 'success': return 'bg-green-100 text-green-800';
+      case 'warning': return 'bg-amber-100 text-amber-800';
+      case 'info': default: return 'bg-blue-100 text-blue-800';
+    }
+  };
+  
+  const getNotificationIcon = (type: string) => {
+    switch (type) {
+      case 'success': return <CheckCircle size={16} className="text-green-800" />;
+      case 'warning': return <AlertCircle size={16} className="text-amber-800" />;
+      case 'info': default: return <Info size={16} className="text-blue-800" />;
+    }
+  };
+  
+  const clearAllNotifications = () => {
+    setNotifications([]);
+    setUnreadCount(0);
+    localStorage.removeItem('habitNotifications');
+    setIsOpen(false);
+  };
+  
+  return (
+    <div className="relative">
+      <button
+        onClick={handleOpen}
+        className="relative p-2 rounded-full hover:bg-gray-100 transition"
+        aria-label="Notifications"
+      >
+        <Bell size={24} className="text-gray-600" />
+        {unreadCount > 0 && (
+          <motion.span
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            className="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full"
+          >
+            {unreadCount}
+          </motion.span>
+        )}
+      </button>
+      
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black bg-opacity-10 z-40"
+              onClick={() => setIsOpen(false)}
+            />
+            
+            {/* Notification panel */}
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg z-50 overflow-hidden"
+            >
+              <div className="p-4 border-b flex justify-between items-center">
+                <h3 className="font-medium">Notifications</h3>
+                <button
+                  onClick={clearAllNotifications}
+                  className="text-xs text-gray-500 hover:text-red-500"
+                >
+                  Clear all
+                </button>
+              </div>
+              <div className="max-h-96 overflow-y-auto">
+                {notifications.length === 0 ? (
+                  <div className="p-4 text-center text-gray-500">
+                    No notifications
+                  </div>
+                ) : (
+                  <ul>
+                    {notifications.map((notification) => (
+                      <li
+                        key={notification.id}
+                        className={`p-3 border-b last:border-b-0 ${notification.read ? 'opacity-75' : ''}`}
+                      >
+                        <div className={`rounded-md p-2 ${getNotificationColor(notification.type)}`}>
+                          <div className="flex items-start">
+                            <div className="mr-2 mt-0.5">
+                              {getNotificationIcon(notification.type)}
+                            </div>
+                            <div>
+                              <p className="mb-1 text-sm">{notification.message}</p>
+                              <p className="text-xs text-gray-600">{timeAgo(notification.timestamp)}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
